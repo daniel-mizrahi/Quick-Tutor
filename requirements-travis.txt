@@ -1,0 +1,7 @@
+Django
+gunicorn
+django-crispy-forms
+dj_database_url
+psycopg2-binary
+django-allauth
+whitenoise

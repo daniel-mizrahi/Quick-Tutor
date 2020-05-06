@@ -1,0 +1,31 @@
+div.a{
+    position: relative;
+    top: 0%;
+    left: 0%;
+    width: auto;
+    height: auto;
+    white-space: nowrap;
+    display: block;
+}
+
+body {
+  background: url(tundy.jpg);
+  background-size: 100% 100%;
+}
+
+.text1
+{
+    font-size: 5vw;
+    font-size: 5vh;
+    font-size: 5vm;
+    font-weight:    bold;
+}
+footer {
+    position: fixed;
+    height: 40px;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    line-height: 0.5;
+}
+

@@ -1,0 +1,51 @@
+body {
+  background: url(tundy.jpg);
+  background-size: 100% 100%;
+}
+.text1
+{
+   font-size: 5vw;
+   font-size: 5vh;
+   font-size: 5vm;
+   font-weight:    bold;
+}
+.rate {
+    position: relative;
+    padding: 0;
+    width     : 60%;
+    height    : 0%;
+    text-align: center;
+    align-items: center;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size: 7vw;
+    font-size: 7vh;
+    font-size: 7vm;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★  ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}

@@ -1,0 +1,111 @@
+{% extends 'student/student_base.html' %}
+{% load static %}
+
+{% block content %}
+<html>
+    <head>
+        <title>Request A Tutor</title>
+    </head>
+
+    <body>
+        <div class="d-flex justify-content-center"><h1>Request Form</h1></div>
+        <div class="d-flex justify-content-center"><h4>Enter your request here to get tutoring help!</h4></div>
+        <div class="d-flex justify-content-center" style="background-color:rgba(0, 0, 0, 0.5); color: white">
+            {% load crispy_forms_tags %}
+            <form action="/student/student_request_form/" method="post" style="margin:10px;">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" value="Submit" style="margin:10px;">
+            </form>
+        </div>
+        <h> Location sent to tutor: </h>
+    </body>
+</html>
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Geolocation</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      // Note: This example requires that you consent to location sharing when
+      // prompted by your browser. If you see the error "The Geolocation service
+      // failed.", it means you probably did not give permission for the browser to
+      // locate you.
+      var map, infoWindow;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 38.034722, lng: -78.504167},
+          zoom: 14
+        });
+        infoWindow = new google.maps.InfoWindow;
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            // AJAX Request for latitude and longitude
+            window.onclick=()=>{
+                  sendurl="http://127.0.0.1:8000/student/student_request_form/";
+                  content= "lat=" + position.coords.latitude + "&lng=" + position.coords.longitude;
+                  Ajax = new XMLHttpRequest();
+                  Ajax.open("POST", "https://cs3240-pseudocode.herokuapp.com/student/student_request_form/", true);
+                  //Ajax.setRequestHeader("Host", "127.0.0.1:8000");
+                  Ajax.setRequestHeader("csrftoken", "fetch");
+                  Ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                  //Ajax.withCredentials = true;
+                  //console.log
+                  Ajax.send(content);
+                }
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('{{user.first_name}}\'s Current Location');
+            infoWindow.open(map);
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEniCOSurXP5Ao-0cdmfjb0SsMQZxNDEw&callback=initMap">
+    </script>
+  </body>
+</html>
+
+{% endblock %}
+

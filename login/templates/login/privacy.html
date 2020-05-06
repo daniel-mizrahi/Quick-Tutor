@@ -1,0 +1,114 @@
+{% load socialaccount %}
+{% providers_media_js %}
+{% load static %}
+<script src="https://apis.google.com/js/platform.js"></script>
+<meta name="google-signin-client_id" content="1058414658470-jjsbaofori0p9dbvrndl96umbbv9fb62.apps.googleusercontent.com">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="{% static 'login/index.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'login:login'%}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login:info'%}">Info</a>
+        </li>
+        {% if not user.is_authenticated %}
+        <li class="nav-item">
+          <!-- <a class="nav-link" href="{% provider_login_url 'google' %}"> Log-In</a> -->
+          <form class="nav-link" action="{% provider_login_url 'google' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Login</button>       
+          </form>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <!-- <a class="nav-link" href="{% url 'login:logout' %}" method post> Log-out</a> -->
+          <form class="nav-link" action="{% url 'login:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Logout</button>       
+          </form>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- Navigation -->
+<style>
+  #profile h1{
+    font-size: 50;  
+  }
+
+  #profile div.form{
+    background-color: rgba(202, 206, 207, 0.6);
+    width: 320px;
+    padding: 10px;
+  }
+
+  #profile li{
+    content: "|";
+    display: inline;
+  }
+</style>
+<html>
+  <head> 
+    <title>Profile</title>
+  </head>
+  <center id=profile>
+    <header>
+        <h1>How We Use Your Data</h1>
+    </header>
+    <body>
+      <div class="form">
+        <!-- Name, email, and phone -->
+        <h4>First Name</h4>
+        <button class="btn btn-success" disabled>Shared With Student/Tutor</button>
+        <br>
+
+        <h4>Last Name</h4>
+        <button class="btn btn-success" disabled>Shared With Student/Tutor</button>
+        <br>
+
+        <h4>Email</h4> 
+        <button class="btn btn-success" disabled>Shared With Student/Tutor</button>
+
+        <h4>Phone Number</h4>
+        <button class="btn btn-success" disabled>Shared with Student/Tutor</button>
+        <br>
+
+        <!-- Classes that student needs help with -->
+        <h4>Classes Taking</h4>
+            <button class="btn btn-danger" disabled>Private</button>
+
+        <!-- Classes that tutor can help with-->
+        <h4>Tutorable Classes</h4>
+            <button class="btn btn-danger" disabled>Private</button>
+
+        <h4>Notifications</h4>
+            <button class="btn btn-warning" disabled>Recommended</button>
+      <br><br>
+        <form action="{% url 'login:profile' %}">
+          <button type="submit" class="btn btn-primary">Profile</button>       
+        </form>
+      </div>
+    </body>
+  </center>
+</html>
+
+<script>
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
+</script>

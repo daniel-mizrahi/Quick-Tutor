@@ -1,0 +1,53 @@
+div.a{
+    position: relative;
+    top: 0%;
+    left: 0%;
+    width: auto;
+    height: auto;
+    white-space: nowrap;
+    display: block;
+}
+div.b{
+    position: relative;
+    top: 10%;
+    left: 0%;
+    width: 100%;
+    height: auto;
+    white-space: nowrap;
+    display: block;
+    box-sizing: border-box;
+    align-items:center;
+    text-align:center;
+}
+
+body {
+  background: url(tundy.jpg);
+  background-size: 100% 100%;
+}
+.text1
+{
+   font-size: 17vw;
+   font-size: 17vh;
+   font-size: 17vm;
+   font-weight:    bold;
+}
+.btn-lg {
+   font-size: 14vw;
+   font-size: 14vh;
+   font-size: 14vm;
+   border-radius: 20px;
+}
+.btn-group {
+    margin-right: 3%;
+    margin-left: 10%;
+}
+
+.inline{
+    display:inline-block;
+    white-space:nowrap;
+    autoflow-x:auto;
+}
+
+
+
+

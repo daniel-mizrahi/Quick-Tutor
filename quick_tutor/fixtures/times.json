@@ -1,0 +1,50 @@
+[
+  {
+    "model": "quick_tutor.length",
+    "pk": 0,
+    "fields": {
+      "name": "5 minutes",
+      "minutes": 5
+    }
+  },
+  {
+    "model": "quick_tutor.length",
+    "pk": 1,
+    "fields": {
+      "name": "15 minutes",
+      "minutes": 15
+    }
+  },
+  {
+    "model": "quick_tutor.length",
+    "pk": 2,
+    "fields": {
+      "name": "30 minutes",
+      "minutes": 30
+    }
+  },
+  {
+    "model": "quick_tutor.length",
+    "pk": 3,
+    "fields": {
+      "name": "1 hour",
+      "minutes": 60
+    }
+  },
+  {
+    "model": "quick_tutor.length",
+    "pk": 4,
+    "fields": {
+      "name": "1.5 hours",
+      "minutes": 90
+    }
+  },
+  {
+    "model": "quick_tutor.length",
+    "pk": 5,
+    "fields": {
+      "name": "2 hours",
+      "minutes": 120
+    }
+  }
+]

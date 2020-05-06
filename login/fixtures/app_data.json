@@ -1,0 +1,16 @@
+[
+  {
+    "model": "socialaccount.socialapp",
+        "pk": 1,
+        "fields": {
+            "provider": "google",
+            "name": "Gmail",
+            "client_id": "1058414658470-jjsbaofori0p9dbvrndl96umbbv9fb62.apps.googleusercontent.com",
+            "secret": "lwco332jCjr3EpXCxVA_wBYX",
+            "key": "",
+            "sites": [
+                1
+            ]
+        }
+  }
+]

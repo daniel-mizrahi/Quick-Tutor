@@ -1,0 +1,54 @@
+{% load static %}
+{% load socialaccount %}
+{% providers_media_js %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="{% static 'tutor/tutor_base.css' %}">
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login:login'%}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'tutor:tutor_open_requests'%}">View Open Requests</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'tutor:tutor_request'%}">My Request</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'student:student_home'%}">Switch to Student</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login:profile'%}">Account</a>
+        </li>
+        {% endif %}
+        {% if not user.is_authenticated %}
+        <li class="nav-item">
+          <!-- <a class="nav-link" href="{% provider_login_url 'google' %}"> Log-In</a> -->
+          <form class="nav-link" action="{% provider_login_url 'google' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Login</button>       
+          </form>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <!-- <a class="nav-link" href="{% url 'login:logout' %}" method post> Log-out</a> -->
+          <form class="nav-link" action="{% url 'login:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Logout</button>       
+          </form>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- Navigation -->
+{% block content %}
+{% endblock content %}

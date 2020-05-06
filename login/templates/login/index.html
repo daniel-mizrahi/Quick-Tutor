@@ -1,0 +1,100 @@
+{% load socialaccount %}
+{% providers_media_js %}
+{% load static %}
+<script src="https://apis.google.com/js/platform.js"></script>
+<meta name="google-signin-client_id" content="1058414658470-jjsbaofori0p9dbvrndl96umbbv9fb62.apps.googleusercontent.com">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="{% static 'login/index.css' %}">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'login:login'%}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login:info'%}">Info</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login:profile'%}">Account</a>
+        </li>
+        {% endif %}
+        {% if not user.is_authenticated %}
+        <li class="nav-item">
+          <!-- <a class="nav-link" href="{% provider_login_url 'google' %}"> Log-In</a> -->
+          <form class="nav-link" action="{% provider_login_url 'google' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Login</button>       
+          </form>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <!-- <a class="nav-link" href="{% url 'login:logout' %}" method post> Log-out</a> -->
+          <form class="nav-link" action="{% url 'login:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Logout</button>       
+          </form>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- Navigation -->
+
+<html>
+    <head>
+        <title>Quick Tutor</title>
+    </head>
+    <div>
+      {% include 'login/messages.html' %}
+    </div>
+    <body>
+    <div class="a">
+      <center>
+        <p><div class="text1">Quick Tutor</div>
+      </center>
+    </div>
+    <div class="b">
+      {% if not user.is_authenticated %}
+        <div class="btn-group">
+          <a href="{% url 'login:notloggedin'%}" class="btn btn-lg btn-dark">Tutor</a>
+        </div>
+      {% else %}
+      <div class="btn-group">
+        <a href="{% url 'tutor:tutor_home'%}" class="btn btn-lg btn-dark">Tutor</a>
+      </div>
+      {% endif %}
+      {% if not user.is_authenticated %}
+      <div class="btn-group">
+        <a href="{% url 'login:notloggedin'%}" class="btn btn-lg btn-dark">Student</a>
+      </div>
+      {% else %}
+      <div class="btn-group">
+        <a href="{% url 'student:student_home'%}" class="btn btn-lg btn-dark">Student</a>
+      </div>
+      {% endif %}
+    </div>
+    </body>
+</html>
+
+<script>
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
+
+  setTimeout(function(){
+      if ($('#msg').length > 0) {
+        $('#msg').remove();
+      }
+  }, 2000)
+</script>

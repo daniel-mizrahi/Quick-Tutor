@@ -1,0 +1,94 @@
+{% extends 'student/student_base.html' %}
+{% load socialaccount %}
+{% providers_media_js %}
+{% load static %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="{% static 'student/student_request.css' %}">
+{% block content %}
+<head>
+  <title>My Request</title>
+    {% if state == "Timing" %}
+        <meta http-equiv="refresh" content="15">
+    {% endif %}
+</head>
+<div class="card text-center">
+  <div class="card-header">
+      {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} m-2" id="msg" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+      {% endif %}
+    <h3>My Request</h3>
+
+
+  </div>
+    {% if request %}
+      <div class="card-body">
+          {% if state == "Complete" or state == "Timing" or state == "Accepted" %}
+              <p class="card-text">Tutor name: {{ request.tutor.profile.user.first_name }} {{ request.tutor.profile.user.last_name }}</p>
+              {% if request.tutor.profile.user.profile.phone %}
+                <p class="card-text">Phone Number: {{request.tutor.profile.user.profile.phone}}</p>
+              {% endif %}
+              <p class="card-text">Email: {{request.tutor.profile.user.email}}</p>
+          {% endif %}
+          <p class="card-text">Class: {{request.course}}</p>
+          <p class="card-text">Length: {{request.length}}</p>
+          <p class="card-text">Question Title: {{request.title}}</p>
+          {% if request.message %}
+            <p class="card-text">Custom Message: {{request.message}}</p>
+          {% endif %}
+          <p class="card-text">Proposed Location: {{request.location}}</p>
+          <p class="card-text">Status: {{state}}</p>
+          {% if state == "Complete" %}
+          <form action="{%  url 'student:confirm_payment' %}" method="post">
+              {% csrf_token %}
+              <div class="rate" style="position: center; transform: translateX(-30px);">
+                  <input type="radio" id="star5" name="rate" value="5" />
+                    <label for="star5" title="text">5 stars</label>
+                    <input type="radio" id="star4" name="rate" value="4" />
+                    <label for="star4" title="text">4 stars</label>
+                    <input type="radio" id="star3" name="rate" value="3" />
+                    <label for="star3" title="text">3 stars</label>
+                    <input type="radio" id="star2" name="rate" value="2" />
+                    <label for="star2" title="text">2 stars</label>
+                    <input type="radio" id="star1" name="rate" value="1" />
+                  <label for="star1" title="text">1 star</label>
+              </div>
+              <br><br>
+              <br><br>
+              <button value="Complete Request" type="submit" class="btn btn-outline-primary" style="position: center;">End Request</button>
+          </form>
+          {% else %}
+              <form action="{%  url 'student:cancel_request' %}" method="post">
+                  {% csrf_token %}
+                  <button value="Cancel Request" type="submit" class="btn btn-outline-danger">Cancel Request</button>
+              </form>
+          {% endif %}
+          {% if state == "Accepted" %}
+              <form action="{%  url 'student:begin_timing' %}" method="post">
+                  {% csrf_token %}
+                  <button value="Begin Timing" type="submit" class="btn btn-outline-primary">Begin Timing</button>
+              </form>
+          {% endif %}
+          <p class="card-text"></p>
+      </div>
+      <div class="card-footer text-muted">
+        Time Elapsed: {{elapsed_time}}
+      </div>
+    {% else %}
+        <div class="card-body">
+          <p class="card-text">You have no requests.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+<script>
+  setTimeout(function(){
+      if ($('#msg').length > 0) {
+        $('#msg').remove();
+      }
+  }, 2000)
+</script>

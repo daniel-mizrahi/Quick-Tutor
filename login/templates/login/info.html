@@ -1,0 +1,178 @@
+{% load socialaccount %}
+{% providers_media_js %}
+{% load static %}
+<script src="https://apis.google.com/js/platform.js"></script>
+<meta name="google-signin-client_id" content="1058414658470-jjsbaofori0p9dbvrndl96umbbv9fb62.apps.googleusercontent.com">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="{% static 'login/info.css' %}">
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'login:login'%}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login:info'%}">Info</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login:profile'%}">Account</a>
+        </li>
+        {% endif %}
+        {% if not user.is_authenticated %}
+        <li class="nav-item">
+          <!-- <a class="nav-link" href="{% provider_login_url 'google' %}"> Log-In</a> -->
+          <form class="nav-link" action="{% provider_login_url 'google' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Login</button>       
+          </form>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <!-- <a class="nav-link" href="{% url 'login:logout' %}" method post> Log-out</a> -->
+          <form class="nav-link" action="{% url 'login:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Logout</button>       
+          </form>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- Navigation -->
+
+<script>
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Info</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<style>
+    .bs-example{
+        margin: 20px;
+    }
+    .accordion .fa{
+        margin-right: 0.5rem;
+    }
+</style>
+<script>
+    $(document).ready(function(){
+        $(".collapse.show").each(function(){
+        	$(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
+        });
+        $(".collapse").on('show.bs.collapse', function(){
+        	$(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
+        }).on('hide.bs.collapse', function(){
+        	$(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
+        });
+        $(".accordion .headingOne:eq(1)").trigger('click');
+    });
+</script>
+</head>
+<body>
+<div class="bs-example">
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"><i class="fa fa-plus"></i>About Quick Tutor</button>
+                </h2>
+            </div>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <li>Quick Tutor is the one-stop shop for students with a hankering for help!<br></li>
+                    <li>Quick Tutor is like Uber for tutors!<br></li>
+                    <li>It pairs students who have questions with tutors who have answers!<br></li>
+                    <li>You’ll like what it has to offer.<br></li>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h2 class="mb-0">
+                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo"><i class="fa fa-plus"></i>Account Set-Up</button>
+                </h2>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    <li>When logging in for the first time, be sure to go to the <a href="{% url 'login:profile'%}">Account</a>
+                    page to set up all your information.<br></li>
+                    <li>Without entering the classes you are taking, you will not be able to Complete a Request as a Tutor or Student.<br></li>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h2 class="mb-0">
+                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapseThree"><i class="fa fa-plus"></i>How to Complete a Request as a Student</button>
+                </h2>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    <li>From the <a href="{% url 'login:login'%}">Home</a> Page, click on the Student button to navgiate to the Student App.<br></li>
+                    <li>Click on the <a href="{% url 'student:student_request_form'%}">Request A Tutor</a> Page and fill in all the forms on the page.<br></li>
+                    <li>Once you click submit, you will be redirected to the <a href="{% url 'student:student_request'%}">My Request</a> Page where you can see your pending request.<br></li>
+                    <li>Once your request has been taken by a Tutor, you will see the button "Begin Timing" appear, upon refreshing the page.<br></li>
+                    <li>When your request has finished, the Tutor will end timing and give you a rating.<br></li>
+                    <li>Upon page refresh, you will be able to rate the Tutor and click the "Complete Request" button to end the Request.<br></li>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingFour">
+                <h2 class="mb-0">
+                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapseFour"><i class="fa fa-plus"></i>How to Complete a Request as a Tutor</button>
+                </h2>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                <div class="card-body">
+                    <li>From the <a href="{% url 'login:login'%}">Home</a> Page, click on the Tutor button to navgiate to the Tutor App.<br></li>
+                    <li>Click on the <a href="{% url 'tutor:tutor_open_requests'%}">View Open Requests</a> Page to view all open requests.<br></li>
+                    <li>If there are requests for Tutors, you can see more information about the request by clicking on the card.<br></li>
+                    <li>Click on the Accept button on the card to accept that request and you will be redirected to the <a href="{% url 'tutor:tutor_request'%}">My Request</a> page.<br></li>
+                    <li>Once the student has begun timing, upon page refresh you will see the timer start and the rating and "Finish Request" button appear.<br></li>
+                    <li>When the request is complete, feel free to rate the student and click "Finish Request" to complete the request.<br></li>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingFive">
+                <h2 class="mb-0">
+                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapseFive"><i class="fa fa-plus"></i>About the Quick Tutor App Creators</button>
+                </h2>
+            </div>
+            <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
+                <div class="card-body">
+                    <li><strong>Nate Hunter- </strong><medium class="text-muted">Scrum Master: </medium> Scrum, Scrum, and more Scrum. This guy keeps everyone in check and the whole team running like a well oiled machine.<br></li>
+                    <li><strong>Alex Kim- </strong><medium class="text-muted">DevOps Manager: </medium> Models, he knows it. Views, he knows it. Travis, he's the only one who knows it. He can answer just about any question you ask him.<br></li>
+                    <li><strong>Daniel Mizrahi- </strong><medium class="text-muted">Software Architect: </medium> Using a bootstrap template... nah. Building out tons of front-end from scratch... yeah! Level of Googling Things > 9000.<br></li>
+                    <li><strong>Ben Phillips- </strong><medium class="text-muted">Requirements Manager: </medium> You get an API! And you get an API! APIs for everyone! Casually connected all of our teams API's... no big deal.<br></li>
+                    <li><strong>Shivaen Ramshetty- </strong><medium class="text-muted">Testing Manager: </medium> This guy will surprise you. Out of no where, he'll just build industry quality front-end, back-end, and everything in between.<br></li>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
